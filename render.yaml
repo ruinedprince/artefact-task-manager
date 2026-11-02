@@ -1,0 +1,8 @@
+services:
+  - type: web
+    name: artefact-task-manager
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm start -- -p $PORT
+    autoDeployTrigger: commit

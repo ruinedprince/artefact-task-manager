@@ -29,6 +29,12 @@ npm audit                 # auditoria de dependências
 
 O teste de integração inicia e encerra seu próprio servidor local, em uma porta livre. Não são necessárias credenciais.
 
+## Demonstração no Render
+
+O repositório contém `render.yaml` para criar um Web Service Node no [Render](https://render.com). No painel do Render, selecione **New > Blueprint**, conecte este repositório e confirme o serviço proposto. O build usa `npm ci && npm run build` e o processo inicia com a porta fornecida pelo Render.
+
+O plano gratuito é adequado para uma demonstração do case, mas pausa o serviço após 15 minutos sem tráfego. A primeira visita após uma pausa pode levar aproximadamente um minuto e inicia um novo processo: por projeto, todas as tarefas em memória serão perdidas. Isso também acontece em novos deploys e reinicializações do serviço.
+
 ## Como funciona
 
 - Next.js 15 e React: a rota principal é dinâmica e renderiza a primeira página no servidor a cada requisição. A navegação e as operações seguintes acontecem no cliente.
