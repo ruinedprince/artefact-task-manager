@@ -8,5 +8,8 @@ const resources = {
 Object.assign(resources.pt.translation, { refreshFailed: 'A alteração foi salva, mas não foi possível atualizar a lista completa.', retryRefresh: 'Atualizar lista' });
 Object.assign(resources.en.translation, { refreshFailed: 'Your change was saved, but the full list could not be refreshed.', retryRefresh: 'Refresh list' });
 Object.assign(resources.es.translation, { refreshFailed: 'El cambio se guardó, pero no se pudo actualizar la lista completa.', retryRefresh: 'Actualizar lista' });
+Object.assign(resources.pt.translation, { workspace: 'espaço de trabalho', pageTitle: 'Forma — tarefas', pageDescription: 'Um espaço simples para organizar tarefas.' });
+Object.assign(resources.en.translation, { workspace: 'workspace', pageTitle: 'Forma — tasks', pageDescription: 'A simple space to organise tasks.' });
+Object.assign(resources.es.translation, { workspace: 'espacio de trabajo', pageTitle: 'Forma — tareas', pageDescription: 'Un espacio sencillo para organizar tareas.' });
 if (!i18n.isInitialized) void i18n.use(initReactI18next).init({resources,lng:'pt',fallbackLng:'pt',interpolation:{escapeValue:false}});
 export default i18n;
