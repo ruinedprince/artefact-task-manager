@@ -1,46 +1,81 @@
-# Forma
+# Forma — Artefact technical challenge
 
-Gerenciador de tarefas criado para o desafio técnico da Artefact. Permite criar, listar, editar e excluir tarefas; cada uma possui identificador, título obrigatório, descrição opcional e data de criação. A interface também apresenta as respostas teóricas do case em português, inglês e espanhol.
+Forma is a small task manager built for Artefact's Software Engineer written case. It demonstrates a Next.js 15 application with a type-safe tRPC backend, server-rendered initial data, and a deliberately focused task-management flow.
 
-## Executar
+**Live demo:** [artefact-task-manager.onrender.com](https://artefact-task-manager.onrender.com)
+**Repository:** [ruinedprince/artefact-task-manager](https://github.com/ruinedprince/artefact-task-manager)
 
-Requisitos: Node.js 20.9 ou superior e npm. Não há banco de dados, variáveis de ambiente ou serviços externos obrigatórios.
+## Features
+
+- Create, list, update, and delete tasks.
+- Required title, optional description, generated identifier, and creation timestamp.
+- Server-side rendering for the initial task list.
+- Cursor-based incremental loading with automatic infinite scroll and a manual fallback control.
+- Clear loading, success, validation, retry, and error feedback.
+- Portuguese, English, and Spanish interface, powered by a centralized i18next configuration.
+- An in-app section containing the theoretical answers in all three languages.
+
+## Stack
+
+- Next.js 15 and React 19
+- tRPC 11 for the API layer
+- Zod for server-side input validation
+- TypeScript
+- i18next / react-i18next
+
+## Run locally
+
+Requirements: Node.js 20.9+ and npm. No database, environment variables, or external credentials are required.
 
 ```sh
 npm ci
 npm run dev
 ```
 
-Acesse [http://localhost:3000](http://localhost:3000). Para executar a versão de produção local:
+Open [http://localhost:3000](http://localhost:3000).
+
+To run the production build locally:
 
 ```sh
 npm run build
 npm start
 ```
 
-## Verificar
+## Validate
 
 ```sh
-npm test                  # testes de domínio, paginação, concorrência e traduções
-npm run build             # compilação de produção e verificação de tipos
-npm run test:integration  # após o build: HTTP real e HTML renderizado no servidor
-npm audit                 # auditoria de dependências
+npm test
+npm run build
+npm run test:integration
 ```
 
-O teste de integração inicia e encerra seu próprio servidor local, em uma porta livre. Não são necessárias credenciais.
+- `npm test` covers domain validation, pagination behavior, concurrent request handling, and translations.
+- `npm run build` compiles the production application and checks types.
+- `npm run test:integration` starts a production server and verifies CRUD requests plus server-rendered HTML. Run it after `npm run build`.
 
-## Demonstração no Render
+For a dependency audit, run `npm audit`.
 
-O repositório contém `render.yaml` para criar um Web Service Node no [Render](https://render.com). No painel do Render, selecione **New > Blueprint**, conecte este repositório e confirme o serviço proposto. O build usa `npm ci && npm run build` e o processo inicia com a porta fornecida pelo Render.
+## Architecture and decisions
 
-O plano gratuito é adequado para uma demonstração do case, mas pausa o serviço após 15 minutos sem tráfego. A primeira visita após uma pausa pode levar aproximadamente um minuto e inicia um novo processo: por projeto, todas as tarefas em memória serão perdidas. Isso também acontece em novos deploys e reinicializações do serviço.
+The home route is dynamic and obtains the initial page through the tRPC router on the server. Once hydrated, the client uses the tRPC HTTP client for mutations and subsequent queries. This gives the first visit meaningful server-rendered content while preserving a responsive client-side workflow.
 
-## Como funciona
+The router validates every write at the server boundary with Zod. Task pagination uses a composite cursor (`createdAt` + `id`), so a cursor remains valid even when its referenced task is deleted.
 
-- Next.js 15 e React: a rota principal é dinâmica e renderiza a primeira página no servidor a cada requisição. A navegação e as operações seguintes acontecem no cliente.
-- tRPC: o servidor expõe consultas e mutações tipadas. A primeira página usa o caller do mesmo router no servidor; o navegador usa o cliente tRPC por HTTP. O Zod valida os dados na fronteira do servidor.
-- Paginação: a lista usa cursor composto por data e ID para carregar mais tarefas automaticamente na rolagem. Há também um botão para carregamento manual.
-- Idiomas: i18next centraliza as mensagens de interface. A escolha é guardada no navegador; português é o padrão para a primeira renderização.
-- As tarefas vivem **somente na memória de um processo Node**. Reiniciar o servidor apaga todos os dados, e processos ou instâncias diferentes não compartilham a lista. Use um servidor de processo único; plataformas que criam várias funções ou instâncias, como ambientes serverless, não garantem uma lista consistente. A aplicação não tem autenticação: use apenas dados fictícios.
+Tasks intentionally live only in memory, as requested by the case. A restart or deploy clears the list, and separate Node processes do not share it. Run the application as a single process and use only fictional task data. There is no authentication layer.
 
-O código separa o router e seus testes em `server/`, a interface em `app/` e `components/`, as mensagens em `lib/i18n.ts` e o conteúdo teórico em `src/lib/theory.ts`.
+## Project layout
+
+```text
+app/          Next.js pages and the tRPC HTTP route
+components/   client workspace interface
+server/       tRPC router, in-memory store, and domain tests
+lib/          i18n and request-concurrency utilities
+src/lib/      theoretical-answer content
+tests/        HTTP and SSR integration test
+```
+
+## Deploy
+
+The repository includes [`render.yaml`](./render.yaml) for a Render Node Web Service. It builds with `npm ci && npm run build` and starts with `npm start -- -p $PORT`.
+
+The free demo is deployed at [artefact-task-manager.onrender.com](https://artefact-task-manager.onrender.com). Because its storage is in process memory, all tasks disappear whenever Render restarts or redeploys the service.
