@@ -20,7 +20,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "test": "node --import tsx --test server/*.test.ts"
+    "test": "node --import tsx --test server/*.test.ts",
+    "test:integration": "node --test tests/*.test.mjs"
   },
   "name": "forma-task-workspace",
   "private": "true",
