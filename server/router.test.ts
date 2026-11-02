@@ -7,7 +7,7 @@ test('CRUD accepts omitted descriptions and rejects invalid requests', async () 
   const task = await api.create({ title: '  Example  ' });
   assert.equal(task.title, 'Example');
   assert.equal(task.description, '');
-  assert.ok((await api.list()).some(item => item.id === task.id));
+  assert.ok((await api.list()).items.some(item => item.id === task.id));
   const updated = await api.update({ id: task.id, title: 'Updated' });
   assert.equal(updated.description, '');
   await api.update({ id: task.id, title: 'Updated', description: 'Keep me' });

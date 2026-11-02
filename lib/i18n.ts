@@ -11,5 +11,8 @@ Object.assign(resources.es.translation, { refreshFailed: 'El cambio se guardó, 
 Object.assign(resources.pt.translation, { workspace: 'espaço de trabalho', pageTitle: 'Forma — tarefas', pageDescription: 'Um espaço simples para organizar tarefas.' });
 Object.assign(resources.en.translation, { workspace: 'workspace', pageTitle: 'Forma — tasks', pageDescription: 'A simple space to organise tasks.' });
 Object.assign(resources.es.translation, { workspace: 'espacio de trabajo', pageTitle: 'Forma — tareas', pageDescription: 'Un espacio sencillo para organizar tareas.' });
+Object.assign(resources.pt.translation, {loadMore:'Carregar mais tarefas',loadingMore:'Carregando tarefas…',retryMore:'Tentar novamente',loadMoreFailed:'Não foi possível carregar mais tarefas.'});
+Object.assign(resources.en.translation, {loadMore:'Load more tasks',loadingMore:'Loading tasks…',retryMore:'Try again',loadMoreFailed:'Could not load more tasks.'});
+Object.assign(resources.es.translation, {loadMore:'Cargar más tareas',loadingMore:'Cargando tareas…',retryMore:'Intentar de nuevo',loadMoreFailed:'No se pudieron cargar más tareas.'});
 if (!i18n.isInitialized) void i18n.use(initReactI18next).init({resources,lng:'pt',fallbackLng:'pt',interpolation:{escapeValue:false}});
 export default i18n;
