@@ -1,0 +1,28 @@
+{
+  "dependencies": {
+    "@trpc/client": "^11.22.1",
+    "@trpc/server": "^11.22.1",
+    "i18next": "^26.7.1",
+    "next": "^15.5.28",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "react-i18next": "^17.1.11",
+    "zod": "^4.6.7"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.6",
+    "@types/react": "^19.3.0",
+    "@types/react-dom": "^19.3.0",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
+  "name": "forma-task-workspace",
+  "private": "true",
+  "overrides": {
+    "postcss": "^8.5.23"
+  }
+}
